@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+
+##
+## Wrong side of the tracks: Rails on Ubuntu
+## Author: Mike Williamson
+## Website: www.dexterchief.com
+## This is intended to the heavy lifting to get a working Rails environment from a default Ubuntu install. 
+##
+
+
+
+
+echo -e "\r\n\r\ndownloading and installing the software...\r\n\r\n"
+## aptitude -s = simulate. Great for testing.
+aptitude install --assume-yes build-essential netbeans gedit-plugins vim git-core ruby-full libopenssl-ruby1.8 mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert gitk || { echo "problem downloading one of the packages"; exit 1; } 
+
+#echo -e "\r\n\r\nGoing to get a fresh ruby-gems...\r\n\r\n"
+cd $HOME
+
+wget http://rubyforge.org/frs/download.php/60718/rubygems-1.3.5.tgz || { echo "Couldn't download ruby-gems!"; exit 1; } 
+
+tar -xvf rubygems-1.3.5.tgz || { echo "tar problems"; exit 1; }
+chmod +x rubygems-1.3.5/setup.rb
+
+ruby rubygems-1.3.5/setup.rb
+
+echo -e "\r\n\r\nCleaning up a little...\r\n\r\n"
+rm $HOME/rubygems-1.3.5.tgz
+rm -Rf $HOME/rubygems-1.3.5
+
+##Create some symlinks so we can use the gem command without whining...
+
+ln -s /usr/bin/gem1.8 /usr/local/bin/gem
+ln -s /usr/bin/ruby1.8 /usr/local/bin/ruby
+ln -s /usr/bin/rdoc1.8 /usr/local/bin/rdoc
+ln -s /usr/bin/ri1.8 /usr/local/bin/ri
+ln -s /usr/bin/irb1.8 /usr/local/bin/irb
+
+#Is rubyforge still hosting gems?
+#Error fetching http://gems.rubyforge.com:
+#bad response Not Found 404 (http://rubyforge.org/specs.4.8.gz)
+#
+#gem sources -a http://gems.rubyforge.com
+gem sources -a http://gems.github.com
+gem install gemcutter
+gem tumble
+
+echo -e "\r\n\r\nInstalling the rails gem.\r\n\r\n"
+
+gem install rails
+
+echo -e "\r\n\r\nNow installing lots of other gems. You may want to go have a nap.\r\n\r\n"
+
+#Feel free to add any gems you want here:
+
+gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails
+
+#TODO Investigate what needs to be installed from http://updates.netbeans.org/netbeans/updates/6.7.1/uc/final/stable/patch2/ to make rails run "out of the box". 
+#Loop through the ruby2 dir and install everything. Ruby and Rails 0.105.2 depends on Database 1.4.2 and Javascript Debugger 1.1.2
+#See http://updates.netbeans.org/netbeans/updates/6.7.1/uc/final/stable/catalog.xml
+
+#Install the netbeans haml plugin!
+cd $HOME
+
+wget http://mediacast.sun.com/users/tnorbye/media/org-netbeans-modules-haml.nbm || { echo "Couldn't download the netbeans haml module!"; exit 1; } 
+
+#unzip org-netbeans-modules-haml.nbm to a tmp directory
+mkdir hamltmp
+file-roller --extract-to=hamltmp org-netbeans-modules-haml.nbm
+
+#open the resulting netbeans folder. figure out where to put the xml file in config and the jar from modules
+mv hamltmp/netbeans/modules/org-netbeans-modules-haml.jar ~/.netbeans/6.7/modules/org-netbeans-modules-haml.jar
+mv hamltmp/netbeans/config/Modules/org-netbeans-modules-haml.xml ~/.netbeans/6.7/config/Modules/org-netbeans-modules-haml.xml
+
+rm org-netbeans-modules-haml.nbm
+rm -rf hamltmp/
+
+
+gem list
+
+echo -e "\r\n\r\nAll done. Welcome to the wrong side of the tracks. :)\r\n\r\n"
