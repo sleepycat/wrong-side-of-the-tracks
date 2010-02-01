@@ -4,7 +4,7 @@
 ## Wrong side of the tracks: Rails on Ubuntu
 ## Author: Mike Williamson
 ## Website: www.dexterchief.com
-## This is intended to the heavy lifting to get a working Rails environment from a default Ubuntu install. 
+## This is intended to do the heavy lifting to get a working Rails environment from a default Ubuntu install. 
 ##
 
 
@@ -12,7 +12,7 @@
 
 echo -e "\r\n\r\ndownloading and installing the software...\r\n\r\n"
 ## aptitude -s = simulate. Great for testing.
-aptitude install --assume-yes build-essential netbeans gedit-plugins vim git-core ruby-full libopenssl-ruby1.8 mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert gitk || { echo "problem downloading one of the packages"; exit 1; } 
+aptitude install --assume-yes build-essential netbeans gedit-plugins vim git-core ruby-full libopenssl-ruby1.8 mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert meld python-gtksourceview gitk libxslt-dev libxml2-dev || { echo "problem downloading one of the packages"; exit 1; } 
 
 #echo -e "\r\n\r\nGoing to get a fresh ruby-gems...\r\n\r\n"
 cd $HOME
@@ -53,13 +53,15 @@ echo -e "\r\n\r\nNow installing lots of other gems. You may want to go have a na
 
 #Feel free to add any gems you want here:
 
-gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails
+gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails nokogiri sanitize
 
 #TODO Investigate what needs to be installed from http://updates.netbeans.org/netbeans/updates/6.7.1/uc/final/stable/patch2/ to make rails run "out of the box". 
 #Loop through the ruby2 dir and install everything. Ruby and Rails 0.105.2 depends on Database 1.4.2 and Javascript Debugger 1.1.2
 #See http://updates.netbeans.org/netbeans/updates/6.7.1/uc/final/stable/catalog.xml
+#For me: foxbeans:http://plugins.netbeans.org/PluginPortal/faces/PluginDetailPage.jsp?pluginid=4209
 
 #Install the netbeans haml plugin!
+
 cd $HOME
 
 wget http://mediacast.sun.com/users/tnorbye/media/org-netbeans-modules-haml.nbm || { echo "Couldn't download the netbeans haml module!"; exit 1; } 
