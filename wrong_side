@@ -7,14 +7,38 @@
 ## This is intended to do the heavy lifting to get a working Rails environment from a default Ubuntu install. 
 ##
 
+#Get the Ubuntu version that we are running on.
+distro=`cat /etc/issue | awk '{print $1}'`; #returns 'Ubuntu'... or should.
+version=`cat /etc/issue | awk '{print $2}'`; #returns something like '9.10'
+if [ $distro !=  'Ubuntu' ]; then
+  echo 'This script is expecting Ubuntu'; exit 1;
+fi
+echo "You are running $distro $version";
 
 
+#TODO Look at setting up a separate setup for ruby 1.9.
+#Ruby 1.8.7 will be compatible with the largest number of versions of Rails so it is used here by default.
 
-echo -e "\r\n\r\ndownloading and installing the software...\r\n\r\n"
+echo -e "\r\n\r\ndownloading and installing the software... Ruby, MySQL and whatnot\r\n\r\n"
 ## aptitude -s = simulate. Great for testing.
-aptitude install --assume-yes build-essential netbeans gedit-plugins vim git-core ruby-full libopenssl-ruby1.8 mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert meld python-gtksourceview gitk libxslt-dev libxml2-dev || { echo "problem downloading one of the packages"; exit 1; } 
 
-#echo -e "\r\n\r\nGoing to get a fresh ruby-gems...\r\n\r\n"
+
+
+#
+#Handle the different versions:
+#
+
+case $version in
+'9.10')
+
+aptitude install --assume-yes build-essential netbeans gedit-plugins vim git-core ruby-full libopenssl-ruby1.8 mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert meld python-gtksourceview gitk libxslt-dev libxml2-dev giggle || { echo "problem downloading one of the packages"; exit 1; } 
+
+#ruby-full libopenssl-ruby1.8 
+#was taken out and replaced with:
+#ruby1.8 ruby1.8-dev ri1.8 libreadline-ruby1.8 rdoc1.8 libopenssl-ruby1.8 libgdbm-ruby1.8 libdbm-ruby1.8 irb1.8
+#Explicitly stating what you want is probably a better idea than metapackages especially as versions go by... Still works with Karmic I hope!
+
+echo -e "\r\n\r\nGoing to get a fresh ruby-gems...\r\n\r\n"
 cd $HOME
 
 wget http://rubyforge.org/frs/download.php/60718/rubygems-1.3.5.tgz || { echo "Couldn't download ruby-gems!"; exit 1; } 
@@ -45,20 +69,35 @@ gem sources -a http://gems.github.com
 gem install gemcutter
 gem tumble
 
-echo -e "\r\n\r\nInstalling the rails gem.\r\n\r\n"
-
-gem install rails
-
-echo -e "\r\n\r\nNow installing lots of other gems. You may want to go have a nap.\r\n\r\n"
+echo -e "\r\n\r\nNow installing lots of other gems. You may want to go have a nap. You may see some errors, but those are just for the documentation so don't worry.\r\n\r\n"
 
 #Feel free to add any gems you want here:
+#Will need to think about adding some versions here as well when working on older projects.
+gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails nokogiri sanitize 
 
-gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails nokogiri sanitize
+echo "installing the gems needed for Rails 3 (beta)"
+gem install tzinfo builder memcache-client rack rack-test rack-mount erubis mail text-format thor bundler i18n sqlite3-ruby rack-mount -v 0.4.0
+
+#
+#Uncomment the Rails versions you want installed. They will install side by side and you projects will use the one the need (whatever is specified in the environment.rb).
+#if you need to create a new project and need to specify the rails version to use you can do this: rails _1.2.6_ projectname
+
+echo -e "\r\n\r\nInstalling the rails gem(s).\r\n\r\n"
+gem install rails -v 1.2.3 --include-dependencies
+gem install rails -v 2.1 --include-dependencies
+gem install rails -v 2.3.5 --include-dependencies
+#Rails 3 beta.
+gem install rails --pre
+
 
 #TODO Investigate what needs to be installed from http://updates.netbeans.org/netbeans/updates/6.7.1/uc/final/stable/patch2/ to make rails run "out of the box". 
 #Loop through the ruby2 dir and install everything. Ruby and Rails 0.105.2 depends on Database 1.4.2 and Javascript Debugger 1.1.2
 #See http://updates.netbeans.org/netbeans/updates/6.7.1/uc/final/stable/catalog.xml
 #For me: foxbeans:http://plugins.netbeans.org/PluginPortal/faces/PluginDetailPage.jsp?pluginid=4209
+#TODO Look at the changes that will come from the version 6.8. Minimally downloading and placing the files will change...
+
+# sudo aptitude install xml-twig-tools. Use xml_grep the work with the xml in the nb directory.
+
 
 #Install the netbeans haml plugin!
 
@@ -81,3 +120,16 @@ rm -rf hamltmp/
 gem list
 
 echo -e "\r\n\r\nAll done. Welcome to the wrong side of the tracks. :)\r\n\r\n"
+
+
+
+;;
+'10.04')
+   commands
+;;
+*)
+   echo "Are you even running Ubuntu?"
+;;
+esac
+
+
