@@ -19,8 +19,6 @@ echo "You are running $distro $version";
 #TODO Look at setting up a separate setup for ruby 1.9.
 #Ruby 1.8.7 will be compatible with the largest number of versions of Rails so it is used here by default.
 
-echo -e "\r\n\r\ndownloading and installing the software... Ruby, MySQL and whatnot\r\n\r\n"
-## aptitude -s = simulate. Great for testing.
 
 
 
@@ -31,101 +29,175 @@ echo -e "\r\n\r\ndownloading and installing the software... Ruby, MySQL and what
 case $version in
 '9.10')
 
-aptitude install --assume-yes build-essential netbeans gedit-plugins vim git-core ruby-full libopenssl-ruby1.8 mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert meld python-gtksourceview gitk libxslt-dev libxml2-dev giggle || { echo "problem downloading one of the packages"; exit 1; } 
 
-#ruby-full libopenssl-ruby1.8 
-#was taken out and replaced with:
-#ruby1.8 ruby1.8-dev ri1.8 libreadline-ruby1.8 rdoc1.8 libopenssl-ruby1.8 libgdbm-ruby1.8 libdbm-ruby1.8 irb1.8
-#Explicitly stating what you want is probably a better idea than metapackages especially as versions go by... Still works with Karmic I hope!
+  echo -e "\r\n\r\ndownloading and installing the software...\r\n\r\n"
+  ## aptitude -s = simulate. Great for testing.
 
-echo -e "\r\n\r\nGoing to get a fresh ruby-gems...\r\n\r\n"
-cd $HOME
+  aptitude install --assume-yes build-essential netbeans gedit-plugins vim git-core ruby-full libopenssl-ruby1.8 mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert meld python-gtksourceview gitk libxslt-dev libxml2-dev giggle || { echo "problem downloading one of the packages"; exit 1; } 
 
-wget http://rubyforge.org/frs/download.php/60718/rubygems-1.3.5.tgz || { echo "Couldn't download ruby-gems!"; exit 1; } 
+  #ruby-full libopenssl-ruby1.8 
+  #was taken out and replaced with:
+  #ruby1.8 ruby1.8-dev ri1.8 libreadline-ruby1.8 rdoc1.8 libopenssl-ruby1.8 libgdbm-ruby1.8 libdbm-ruby1.8 irb1.8
+  #Explicitly stating what you want is probably a better idea than metapackages especially as versions go by... Still works with Karmic I hope!
 
-tar -xvf rubygems-1.3.5.tgz || { echo "tar problems"; exit 1; }
-chmod +x rubygems-1.3.5/setup.rb
+  echo -e "\r\n\r\nGoing to get a fresh ruby-gems...\r\n\r\n"
+  cd $HOME
 
-ruby rubygems-1.3.5/setup.rb
+  wget http://rubyforge.org/frs/download.php/60718/rubygems-1.3.5.tgz || { echo "Couldn't download ruby-gems!"; exit 1; } 
 
-echo -e "\r\n\r\nCleaning up a little...\r\n\r\n"
-rm $HOME/rubygems-1.3.5.tgz
-rm -Rf $HOME/rubygems-1.3.5
+  tar -xvf rubygems-1.3.5.tgz || { echo "tar problems"; exit 1; }
+  chmod +x rubygems-1.3.5/setup.rb
 
-##Create some symlinks so we can use the gem command without whining...
+  ruby rubygems-1.3.5/setup.rb
 
-ln -s /usr/bin/gem1.8 /usr/local/bin/gem
-ln -s /usr/bin/ruby1.8 /usr/local/bin/ruby
-ln -s /usr/bin/rdoc1.8 /usr/local/bin/rdoc
-ln -s /usr/bin/ri1.8 /usr/local/bin/ri
-ln -s /usr/bin/irb1.8 /usr/local/bin/irb
+  echo -e "\r\n\r\nCleaning up a little...\r\n\r\n"
+  rm $HOME/rubygems-1.3.5.tgz
+  rm -Rf $HOME/rubygems-1.3.5
 
-#Is rubyforge still hosting gems?
-#Error fetching http://gems.rubyforge.com:
-#bad response Not Found 404 (http://rubyforge.org/specs.4.8.gz)
-#
-#gem sources -a http://gems.rubyforge.com
-gem sources -a http://gems.github.com
-gem install gemcutter
-gem tumble
+  ##Create some symlinks so we can use the gem command without whining...
 
-echo -e "\r\n\r\nNow installing lots of other gems. You may want to go have a nap. You may see some errors, but those are just for the documentation so don't worry.\r\n\r\n"
+  ln -s /usr/bin/gem1.8 /usr/local/bin/gem
+  ln -s /usr/bin/ruby1.8 /usr/local/bin/ruby
+  ln -s /usr/bin/rdoc1.8 /usr/local/bin/rdoc
+  ln -s /usr/bin/ri1.8 /usr/local/bin/ri
+  ln -s /usr/bin/irb1.8 /usr/local/bin/irb
 
-#Feel free to add any gems you want here:
-#Will need to think about adding some versions here as well when working on older projects.
-gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails nokogiri sanitize 
+  #apparently gemcutter is the place to get all gems now.
+  gem install gemcutter
 
-echo "installing the gems needed for Rails 3 (beta)"
-gem install tzinfo builder memcache-client rack rack-test rack-mount erubis mail text-format thor bundler i18n sqlite3-ruby rack-mount -v 0.4.0
+  echo -e "\r\n\r\nNow installing lots of other gems. You may want to go have a nap. You may see some errors, but those are just for the documentation so don't worry.\r\n\r\n"
 
-#
-#Uncomment the Rails versions you want installed. They will install side by side and you projects will use the one the need (whatever is specified in the environment.rb).
-#if you need to create a new project and need to specify the rails version to use you can do this: rails _1.2.6_ projectname
+  #Feel free to add any gems you want here:
+  #Will need to think about adding some versions here as well when working on older projects.
+  gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails nokogiri sanitize 
 
-echo -e "\r\n\r\nInstalling the rails gem(s).\r\n\r\n"
-gem install rails -v 1.2.3 --include-dependencies
-gem install rails -v 2.1 --include-dependencies
-gem install rails -v 2.3.5 --include-dependencies
-#Rails 3 beta.
-gem install rails --pre
+  echo "installing the gems needed for Rails 3 (beta)"
+  gem install tzinfo builder memcache-client rack rack-test rack-mount erubis mail text-format thor bundler i18n sqlite3-ruby rack-mount -v 0.4.0
+
+  #
+  #Uncomment the Rails versions you want installed or add others. 
+  #They will install side by side and you projects will use the one the need (whatever is specified in the environment.rb).
+  #if you need to create a new project using an old version of rails you need to specify the rails version like this: rails _1.2.6_ projectname
+
+  echo -e "\r\n\r\nInstalling the rails gem(s).\r\n\r\n"
+  #gem install rails -v 1.2.3 --include-dependencies
+  gem install rails -v 2.1 --include-dependencies
+  gem install rails -v 2.3.5 --include-dependencies
+  #Rails 3 beta.
+  gem install rails --pre
+
+    #I am working on installing all the Netbeans plugins needed for Rails development from the command line. 
+    #This is an experimental feature and until I can figure out how to find all the files that are involved in all the dependenancies I am just leaving this commented out.
+    #TODO Investigate what needs to be installed from http://updates.netbeans.org/netbeans/updates/6.7.1/uc/final/stable/patch2/ to make rails run "out of the box". 
+    #Loop through the ruby2 dir and install everything. Ruby and Rails 0.105.2 depends on Database 1.4.2 and Javascript Debugger 1.1.2
+
+    #TODO Look at the changes that will come from the version 6.8. Minimally downloading and placing the files will change...
+
+    #See http://updates.netbeans.org/netbeans/updates/6.7.1/uc/final/stable/catalog.xml
+    # sudo aptitude install xml-twig-tools. Use xml_grep the work with the xml in the nb directory?. Or maybe another way...
+
+    #Proof of concept:
+    #Install the netbeans haml plugin!
+    #This netbeans plugin has a dependency on the ruby plugin (not surprising) and will cause Netbeans to complain if it finds it in the module folder without ruby.
+
+    #cd $HOME
+
+    #wget http://mediacast.sun.com/users/tnorbye/media/org-netbeans-modules-haml.nbm || { echo "Couldn't download the netbeans haml module!"; exit 1; } 
+
+    ##unzip org-netbeans-modules-haml.nbm to a tmp directory
+    #mkdir hamltmp
+    #file-roller --extract-to=hamltmp org-netbeans-modules-haml.nbm
+    
+    
+    #mkdir -p ~/.netbeans/6.7/modules/
+    #mkdir -p ~/.netbeans/6.7/config/Modules/
+    #chmod -R 755 ~/.netbeans/
+    #chown -R $SUDO_USER ~/.netbeans/
+    #chgrp -R $SUDO_USER ~/.netbeans/
+    ##open the resulting netbeans folder. figure out where to put the xml file in config and the jar from modules
+    #mv hamltmp/netbeans/modules/org-netbeans-modules-haml.jar ~/.netbeans/6.7/modules/
+    #mv hamltmp/netbeans/config/Modules/org-netbeans-modules-haml.xml ~/.netbeans/6.7/config/Modules/
+    #rm org-netbeans-modules-haml.nbm
+    #rm -rf hamltmp/
 
 
-#TODO Investigate what needs to be installed from http://updates.netbeans.org/netbeans/updates/6.7.1/uc/final/stable/patch2/ to make rails run "out of the box". 
-#Loop through the ruby2 dir and install everything. Ruby and Rails 0.105.2 depends on Database 1.4.2 and Javascript Debugger 1.1.2
-#See http://updates.netbeans.org/netbeans/updates/6.7.1/uc/final/stable/catalog.xml
-#For me: foxbeans:http://plugins.netbeans.org/PluginPortal/faces/PluginDetailPage.jsp?pluginid=4209
-#TODO Look at the changes that will come from the version 6.8. Minimally downloading and placing the files will change...
+  gem list
 
-# sudo aptitude install xml-twig-tools. Use xml_grep the work with the xml in the nb directory.
-
-
-#Install the netbeans haml plugin!
-
-cd $HOME
-
-wget http://mediacast.sun.com/users/tnorbye/media/org-netbeans-modules-haml.nbm || { echo "Couldn't download the netbeans haml module!"; exit 1; } 
-
-#unzip org-netbeans-modules-haml.nbm to a tmp directory
-mkdir hamltmp
-file-roller --extract-to=hamltmp org-netbeans-modules-haml.nbm
-
-#open the resulting netbeans folder. figure out where to put the xml file in config and the jar from modules
-mv hamltmp/netbeans/modules/org-netbeans-modules-haml.jar ~/.netbeans/6.7/modules/org-netbeans-modules-haml.jar
-mv hamltmp/netbeans/config/Modules/org-netbeans-modules-haml.xml ~/.netbeans/6.7/config/Modules/org-netbeans-modules-haml.xml
-
-rm org-netbeans-modules-haml.nbm
-rm -rf hamltmp/
-
-
-gem list
-
-echo -e "\r\n\r\nAll done. Welcome to the wrong side of the tracks. :)\r\n\r\n"
+  echo -e "\r\n\r\nAll done. Welcome to the wrong side of the tracks. :)\r\n\r\n"
 
 
 
 ;;
-'10.04')
-   commands
+'lucid')  ## '10.04') the Alpha version seems not to have a version number yet.
+
+
+  echo "Sorry, we are still figuring out how to get a Rails environment going in Lucid. We'll take another look when Lucid Beta comes out."
+  #get people out of here until testing is done
+  exit 0;
+  #
+  #This is the section for installing the stuff for lucid. For the moment its just duplicating the stuff for Karmic to find out what the differences are between the two.
+  #It might be that the packages don't really settle down until the beta...
+  #This seems to be breaking crazily. No mysql 5.0? No ruby-full?
+
+  aptitude install --assume-yes build-essential netbeans gedit-plugins vim git-core ruby1.8 ruby1.8-dev ri1.8 libreadline-ruby1.8 rdoc1.8 libopenssl-ruby1.8 libgdbm-ruby1.8 libdbm-ruby1.8 irb1.8 mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert meld python-gtksourceview gitk libxslt-dev libxml2-dev giggle || { echo "problem downloading one of the packages"; exit 1; } 
+
+  echo -e "\r\n\r\nGoing to get a fresh ruby-gems...\r\n\r\n"
+  cd $HOME
+
+  wget http://rubyforge.org/frs/download.php/60718/rubygems-1.3.5.tgz || { echo "Couldn't download ruby-gems!"; exit 1; } 
+
+  tar -xvf rubygems-1.3.5.tgz || { echo "tar problems"; exit 1; }
+  chmod +x rubygems-1.3.5/setup.rb
+
+  ruby rubygems-1.3.5/setup.rb
+
+  echo -e "\r\n\r\nCleaning up a little...\r\n\r\n"
+  rm $HOME/rubygems-1.3.5.tgz
+  rm -Rf $HOME/rubygems-1.3.5
+
+  ##Create some symlinks so we can use the gem command without whining...
+
+  ln -s /usr/bin/gem1.8 /usr/local/bin/gem
+  ln -s /usr/bin/ruby1.8 /usr/local/bin/ruby
+  ln -s /usr/bin/rdoc1.8 /usr/local/bin/rdoc
+  ln -s /usr/bin/ri1.8 /usr/local/bin/ri
+  ln -s /usr/bin/irb1.8 /usr/local/bin/irb
+
+  #Is rubyforge still hosting gems?
+  #Error fetching http://gems.rubyforge.com:
+  #bad response Not Found 404 (http://rubyforge.org/specs.4.8.gz)
+  #
+  #gem sources -a http://gems.rubyforge.com
+  gem sources -a http://gems.github.com
+  gem install gemcutter
+  gem tumble
+
+  echo -e "\r\n\r\nNow installing lots of other gems. You may want to go have a nap. You may see some errors, but those are just for the documentation so don't worry.\r\n\r\n"
+
+  #Feel free to add any gems you want here:
+  #Will need to think about adding some versions here as well when working on older projects.
+  gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails nokogiri sanitize 
+
+  echo "installing the gems needed for Rails 3 (beta)"
+  gem install tzinfo builder memcache-client rack rack-test rack-mount erubis mail text-format thor bundler i18n sqlite3-ruby rack-mount -v 0.4.0
+
+  #
+  #Uncomment the Rails versions you want installed. They will install side by side and you projects will use the one the need (whatever is specified in the environment.rb).
+  #if you need to create a new project and need to specify the rails version to use you can do this: rails _1.2.6_ projectname
+
+  echo -e "\r\n\r\nInstalling the rails gem(s).\r\n\r\n"
+  #gem install rails -v 1.2.3 --include-dependencies
+  #gem install rails -v 2.1 --include-dependencies
+  gem install rails -v 2.3.5 --include-dependencies
+  #Rails 3 beta.
+  gem install rails --pre
+
+  gem list
+
+  echo -e "\r\n\r\nAll done. Welcome to the wrong side of the tracks. :)\r\n\r\n"
+
+
+
 ;;
 *)
    echo "Are you even running Ubuntu?"
