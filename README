@@ -1,10 +1,10 @@
 Wrong side of the tracks: Rails on Ubuntu
 
 Sure its not a Mac, but Ubuntu does Rails too!
-This is a quick and dirty script to get a working Ruby on Rails development environment up and working fast.
+This is a quick and dirty script to get a complete working Ruby on Rails development environment up and working fast. Since I maintain some older Rails apps that development environment needs to support  many versions of Rails. I may end up using RVM for that but for the moment, using Ruby 1.8.7 and MySQL 5.0 seems to work for all versions.
 Its been tested on a default install of Ubuntu Karmic 9.10. 
 Support for Lucid is on the way.
-Since I maintain some older Rails apps the focus is on compatibility with many versions of Rails so Ruby 1.8.7 and MySQL 5.0 are used instead of the newer versions. 
+
 
 Mike Williamson
 
@@ -14,5 +14,5 @@ How to use it:
 Run it like any other script:
 Make sure you add execute permissions to it and then run it. Since it is installing stuff you will definitely need to use sudo to run it.
 
-mike@ubuntu:~$ chmod +x wrongside
-mike@ubuntu:~$ sudo ./wrongside
+mike@ubuntu:~$ chmod +x wrong_side
+mike@ubuntu:~$ sudo ./wrong_side

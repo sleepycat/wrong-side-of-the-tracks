@@ -71,9 +71,6 @@ case $version in
   #Will need to think about adding some versions here as well when working on older projects.
   gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails nokogiri sanitize 
 
-  echo "installing the gems needed for Rails 3 (beta)"
-  gem install tzinfo builder memcache-client rack rack-test rack-mount erubis mail text-format thor bundler i18n sqlite3-ruby rack-mount -v 0.4.0
-
   #
   #Uncomment the Rails versions you want installed or add others. 
   #They will install side by side and you projects will use the one the need (whatever is specified in the environment.rb).
@@ -84,6 +81,7 @@ case $version in
   gem install rails -v 2.1 --include-dependencies
   gem install rails -v 2.3.5 --include-dependencies
   #Rails 3 beta.
+  #Rubygems 1.3.6 now handles dependencies in prerelease software so this is all that is needed to install Rails 3 beta now:
   gem install rails --pre
 
     #I am working on installing all the Netbeans plugins needed for Rails development from the command line. 
