@@ -16,12 +16,6 @@ fi
 echo "You are running $distro $version";
 
 
-#TODO Look at setting up a separate setup for ruby 1.9.
-#Ruby 1.8.7 will be compatible with the largest number of versions of Rails so it is used here by default.
-
-
-
-
 #
 #Handle the different versions:
 #
@@ -30,7 +24,7 @@ case $version in
 '9.10')
 
 
-  echo -e "\r\n\r\ndownloading and installing the software...\r\n\r\n"
+  echo -e "\r\n\r\nDownloading and installing the software...\r\n\r\n"
   ## aptitude -s = simulate. Great for testing.
 
   aptitude install --assume-yes build-essential netbeans gedit-plugins vim git-core ruby-full libopenssl-ruby1.8 mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert meld python-gtksourceview gitk libxslt-dev libxml2-dev giggle || { echo "problem downloading one of the packages"; exit 1; } 
@@ -74,7 +68,7 @@ case $version in
   #
   #Uncomment the Rails versions you want installed or add others. 
   #They will install side by side and you projects will use the one the need (whatever is specified in the environment.rb).
-  #if you need to create a new project using an old version of rails you need to specify the rails version like this: rails _1.2.6_ projectname
+  #if you need to create a new project using an old version of rails you need to specify the rails version like this: rails _2.1.0_ projectname
 
   echo -e "\r\n\r\nInstalling the rails gem(s).\r\n\r\n"
   #gem install rails -v 1.2.3 --include-dependencies
@@ -161,14 +155,8 @@ case $version in
   ln -s /usr/bin/ri1.8 /usr/local/bin/ri
   ln -s /usr/bin/irb1.8 /usr/local/bin/irb
 
-  #Is rubyforge still hosting gems?
-  #Error fetching http://gems.rubyforge.com:
-  #bad response Not Found 404 (http://rubyforge.org/specs.4.8.gz)
-  #
-  #gem sources -a http://gems.rubyforge.com
-  gem sources -a http://gems.github.com
+
   gem install gemcutter
-  gem tumble
 
   echo -e "\r\n\r\nNow installing lots of other gems. You may want to go have a nap. You may see some errors, but those are just for the documentation so don't worry.\r\n\r\n"
 
