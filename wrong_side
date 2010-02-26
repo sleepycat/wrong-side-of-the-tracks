@@ -43,16 +43,16 @@ case $version in
   echo -e "\r\n\r\nGoing to get a fresh ruby-gems...\r\n\r\n"
   cd $HOME
 
-  wget http://rubyforge.org/frs/download.php/60718/rubygems-1.3.5.tgz || { echo "Couldn't download ruby-gems!"; exit 1; } 
+  wget http://rubyforge.org/frs/download.php/69365/rubygems-1.3.6.tgz || { echo "Couldn't download ruby-gems!"; exit 1; } 
 
-  tar -xvf rubygems-1.3.5.tgz || { echo "tar problems"; exit 1; }
-  chmod +x rubygems-1.3.5/setup.rb
+  tar -xvf rubygems-1.3.6.tgz || { echo "tar problems"; exit 1; }
+  chmod +x rubygems-1.3.6/setup.rb
 
-  ruby rubygems-1.3.5/setup.rb
+  ruby rubygems-1.3.6/setup.rb
 
   echo -e "\r\n\r\nCleaning up a little...\r\n\r\n"
-  rm $HOME/rubygems-1.3.5.tgz
-  rm -Rf $HOME/rubygems-1.3.5
+  rm $HOME/rubygems-1.3.6.tgz
+  rm -Rf $HOME/rubygems-1.3.6
 
   ##Create some symlinks so we can use the gem command without whining...
 
@@ -69,7 +69,7 @@ case $version in
 
   #Feel free to add any gems you want here:
   #Will need to think about adding some versions here as well when working on older projects.
-  gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails nokogiri sanitize 
+  gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails nokogiri sanitize will_paginate
 
   #
   #Uncomment the Rails versions you want installed or add others. 
@@ -176,12 +176,8 @@ case $version in
   #Will need to think about adding some versions here as well when working on older projects.
   gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails nokogiri sanitize 
 
-  echo "installing the gems needed for Rails 3 (beta)"
-  gem install tzinfo builder memcache-client rack rack-test rack-mount erubis mail text-format thor bundler i18n sqlite3-ruby rack-mount -v 0.4.0
-
-  #
   #Uncomment the Rails versions you want installed. They will install side by side and you projects will use the one the need (whatever is specified in the environment.rb).
-  #if you need to create a new project and need to specify the rails version to use you can do this: rails _1.2.6_ projectname
+  #if you need to create a new project and need to specify the rails version to use you can do this: rails _2.1.0_ projectname
 
   echo -e "\r\n\r\nInstalling the rails gem(s).\r\n\r\n"
   #gem install rails -v 1.2.3 --include-dependencies
