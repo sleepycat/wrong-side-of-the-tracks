@@ -27,7 +27,7 @@ case $version in
   echo -e "\r\n\r\nDownloading and installing the software...\r\n\r\n"
   ## aptitude -s = simulate. Great for testing.
 
-  aptitude install --assume-yes build-essential netbeans gedit-plugins vim git-core ruby-full libopenssl-ruby1.8 mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert meld python-gtksourceview gitk libxslt-dev libxml2-dev giggle || { echo "problem downloading one of the packages"; exit 1; } 
+  aptitude install --assume-yes build-essential netbeans gedit-plugins vim git-core ruby-full libopenssl-ruby1.8 mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert meld python-gtksourceview gitk libxml-ruby1.8{a} libxslt-ruby1.8 || { echo "problem downloading one of the packages"; exit 1; } 
 
   #ruby-full libopenssl-ruby1.8 
   #was taken out and replaced with:
@@ -63,7 +63,7 @@ case $version in
 
   #Feel free to add any gems you want here:
   #Will need to think about adding some versions here as well when working on older projects.
-  gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails nokogiri sanitize will_paginate
+  gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails nokogiri sanitize will_paginate nokogiri
 
   #
   #Uncomment the Rails versions you want installed or add others. 
