@@ -69,7 +69,7 @@ ln -s /usr/bin/rdoc1.8 /usr/local/bin/rdoc
 ln -s /usr/bin/ri1.8 /usr/local/bin/ri
 ln -s /usr/bin/irb1.8 /usr/local/bin/irb
 
-#gemcutter is the place to get all gems now.
+#Rubygems.org/Gemcutter is the place to get all gems now.
 gem install gemcutter
 
 echo -e "\r\n\r\nNow installing lots of other gems. You may want to go have a nap. You may see some errors, but those are just for the documentation so don't worry.\r\n\r\n"
@@ -78,18 +78,22 @@ echo -e "\r\n\r\nNow installing lots of other gems. You may want to go have a na
 #Will need to think about adding some versions here as well when working on older projects.
 gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails nokogiri sanitize will_paginate nokogiri 
 
+
+echo -e "\r\n\r\nInstalling the Rails gem.\r\n\r\n"
 #
 #Uncomment the Rails versions you want installed or add others. 
 #They will install side by side and you projects will use the one the need (whatever is specified in the environment.rb).
 #if you need to create a new project using an old version of rails you need to specify the rails version like this: rails _2.1.0_ projectname
-echo -e "\r\n\r\nInstalling the rails gem(s).\r\n\r\n"
+
 #gem install rails -v 1.2.3 --include-dependencies
-gem install rails -v 2.1 --include-dependencies
-gem install rails -v 2.3.5 --include-dependencies
+#gem install rails -v 2.1 --include-dependencies
+#gem install rails -v 2.3.5 --include-dependencies
+
 #Rails 3 beta.
 #Rubygems 1.3.6 now handles dependencies in prerelease software so this is all that is needed to install Rails 3 beta now:
 gem install rails --pre
 
+echo -e "\r\n\r\nHere are the gems installed:\r\n\r\n"
 
 gem list
 
