@@ -89,7 +89,7 @@ notify-send "Installing gems." "You may want to go have a nap. You may see some 
 
 #Feel free to add any gems you want here:
 #Will need to think about adding some versions here as well when working on older projects.
-gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails nokogiri sanitize will_paginate nokogiri 
+gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic libnotify activemerchant haml_scaffold jrails nokogiri sanitize mechanize will_paginate nokogiri 
 
 
 notify-send "Installing Ruby on Rails." "Rails 3 beta is the version that is being installed."
