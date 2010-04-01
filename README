@@ -1,8 +1,8 @@
 Wrong side of the tracks: Rails on Ubuntu
 
 Sure its not a Mac, but Ubuntu does Rails too!
-This is a quick and dirty script to get a complete working Ruby on Rails development environment up and working fast. Since I maintain some older Rails apps that development environment needs to support  many versions of Rails. I may end up using RVM for that but for the moment, using Ruby 1.8.7 and MySQL 5.0 seems to work for all versions.
-Its been tested on a default install of Ubuntu Karmic 9.10 and the Alpha 3 of Lucid Lynx.
+This is a setup script to get a complete working Ruby on Rails development environment up and working fast. Ubuntu changes far to often to spend a lot of time setting up your development environment. This script is my attempt to solve that issue for myself. Since I maintain some older Rails apps that development environment needs to support  many versions of Rails. I may end up using RVM for that but for the moment, using Ruby 1.8.7 and MySQL 5.0 seems to work for all versions.
+Its been tested on a default install of Ubuntu Karmic 9.10 and Lucid Lynx Alpha 3 and Beta 1.
 
 
 Mike Williamson
