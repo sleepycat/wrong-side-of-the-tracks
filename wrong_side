@@ -7,13 +7,22 @@
 ## This is intended to do the heavy lifting to get a working Rails environment from a default Ubuntu install. 
 ##
 
+aptitude install libnotify-bin;
+#libnotify-bin gives us:
+
+#the rest let us use it in ruby:
+#requre 'rubygems'
+#require 'libnotify'
+# Libnotify.show :summary => "Title!", :body => "test"
+
+
 #Get the Ubuntu version that we are running on.
 distro=`cat /etc/issue | awk '{print $1}'`; #returns 'Ubuntu'... or should.
 version=`cat /etc/issue | awk '{print $2}'`; #returns something like '9.10'
 if [ $distro !=  'Ubuntu' ]; then
   echo 'This script is expecting Ubuntu'; exit 1;
 fi
-echo "You are running $distro $version";
+notify-send "You are running $distro $version";
 
 
 #
@@ -21,10 +30,11 @@ echo "You are running $distro $version";
 case $version in
 '9.10') #Karmic Koala
 
+  notify-send "Downloading and installing now." "Sit tight there is a lot to install."
   echo -e "\r\n\r\nDownloading and installing the software...\r\n\r\n"
   ## aptitude -s = simulate. Great for testing.
 
-  aptitude install --assume-yes build-essential netbeans gedit-plugins vim git-core ruby-full libopenssl-ruby1.8 mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert meld python-gtksourceview gitk libxml-ruby1.8 libxslt-ruby1.8 libnotify-ruby || { echo "problem downloading one of the packages"; exit 1; } 
+  aptitude install --assume-yes build-essential netbeans gedit-plugins vim git-core ruby-full libopenssl-ruby1.8 mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert meld python-gtksourceview gitk libxml-ruby1.8 libxslt-ruby1.8 libnotify-ruby libinotify-ruby libgtk2-ruby libnotify-dev || { echo "problem downloading one of the packages"; exit 1; } 
 
   #ruby-full libopenssl-ruby1.8 
   #was taken out and replaced with:
@@ -34,6 +44,7 @@ case $version in
 ;;
 'lucid')  ## '10.04') the Alpha version seems not to have a version number yet.
 
+  notify-send "Downloading and installing now." "Sit tight there is a lot to install."
   echo -e "\r\n\r\nDownloading and installing the software...\r\n\r\n"
   ## aptitude -s = simulate. Great for testing.
 
@@ -48,6 +59,8 @@ esac
 #
 #The rest if the install is the same for both versions...
 #
+
+notify-send "Going to get a fresh ruby-gems." "Downloading the latest version from rubyforge."
 echo -e "\r\n\r\nGoing to get a fresh ruby-gems...\r\n\r\n"
 cd $HOME
 wget http://rubyforge.org/frs/download.php/69365/rubygems-1.3.6.tgz || { echo "Couldn't download ruby-gems!"; exit 1; } 
@@ -72,14 +85,14 @@ ln -s /usr/bin/irb1.8 /usr/local/bin/irb
 #Rubygems.org/Gemcutter is the place to get all gems now.
 gem install gemcutter
 
-echo -e "\r\n\r\nNow installing lots of other gems. You may want to go have a nap. You may see some errors, but those are just for the documentation so don't worry.\r\n\r\n"
+notify-send "Installing gems." "You may want to go have a nap. You may see some errors, but those are just for the documentation so don't worry."
 
 #Feel free to add any gems you want here:
 #Will need to think about adding some versions here as well when working on older projects.
 gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic activemerchant haml_scaffold jrails nokogiri sanitize will_paginate nokogiri 
 
 
-echo -e "\r\n\r\nInstalling the Rails gem.\r\n\r\n"
+notify-send "Installing Ruby on Rails." "Rails 3 beta is the version that is being installed."
 #
 #Uncomment the Rails versions you want installed or add others. 
 #They will install side by side and you projects will use the one the need (whatever is specified in the environment.rb).
@@ -97,7 +110,7 @@ echo -e "\r\n\r\nHere are the gems installed:\r\n\r\n"
 
 gem list
 
-echo -e "\r\n\r\nAll done. Welcome to the wrong side of the tracks. :)\r\n\r\n"
+notify-send "Welcome to the wrong side of the tracks." "Everything is setup and ready to go. Enjoy."
 
 
 
