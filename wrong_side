@@ -17,7 +17,7 @@ version=`cat /etc/issue | awk '{print $2}'`; #returns something like '9.10'
 if [ $distro !=  'Ubuntu' ]; then
   echo 'This script is expecting Ubuntu'; exit 1;
 fi
-notify-send "You are running $distro $version" "Downloading and installing now. Sit tight there is a lot to install.";
+notify-send "You are running $distro $version" "Downloading and installing now. Sit tight there is a lot to install. MySQL will ask for a password partway through the install.";
 
 #
 #Handle the different versions with a case statment so we can deal with different packages if needed. 
@@ -30,9 +30,9 @@ case $version in
   aptitude install --assume-yes build-essential netbeans gedit-plugins vim git-core ruby-full libopenssl-ruby1.8 mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert meld python-gtksourceview gitk libxml2-dev libxslt1-dev libnotify1 libgtk2-ruby || { echo "problem downloading one of the packages"; exit 1; } 
 
 ;;
-'lucid')  ## '10.04') the development version seems not to have a version number.
+'10.04')  ## '10.04') the development version seems not to have a version number.
 
-  aptitude install --assume-yes build-essential netbeans gedit-plugins git-core ruby-full libopenssl-ruby1.8 mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert meld gitk libxml-ruby1.8 libxslt1-dev libxml2-dev libnotify1 || { echo "problem downloading one of the packages"; exit 1; } 
+  aptitude install --assume-yes build-essential gedit-plugins git-core ruby-full openjdk-6-jre libopenssl-ruby1.8 mysql-server-5.1 mysql-client-5.1 libmysqlclient-dev libsqlite3-dev sqlite3-doc ssl-cert meld gitk libxml-ruby1.8 libxslt1-dev libxml2-dev libnotify1 || { echo "problem downloading one of the packages"; exit 1; } 
 
 ;;
 *)
@@ -43,6 +43,19 @@ esac
 #
 #The rest if the install is the same for both versions...
 #
+
+#cd somewhere reasonable
+cd $HOME
+notify-send "Downloading Netbeans 6.9 Beta." "6.8 Dosen't support Rails 3 so we are grabbing 6.9 from the netbeans site.";
+
+wget http://download.netbeans.org/netbeans/6.9/beta/bundles/netbeans-6.9beta-ml-ruby-linux.sh
+chown -R $SUDO_USER ~/netbeans-6.9beta-ml-ruby-linux.sh
+chgrp -R $SUDO_USER ~/netbeans-6.9beta-ml-ruby-linux.sh
+chmod +x netbeans-6.9beta-ml-ruby-linux.sh
+notify-send "Installing Netbeans 6.9 Beta." "It can take a while to install and it dosen't look like its doing anything. Sit tight. You will find an icon on your desktop afterwards.";
+su $SUDO_USER -c './netbeans-6.9beta-ml-ruby-linux.sh --silent'
+
+
 
 notify-send "Going to get a fresh ruby-gems." "Downloading the latest version from rubyforge."
 echo -e "\r\n\r\nGoing to get a fresh ruby-gems...\r\n\r\n"
@@ -66,6 +79,7 @@ ln -s /usr/bin/rdoc1.8 /usr/local/bin/rdoc
 ln -s /usr/bin/ri1.8 /usr/local/bin/ri
 ln -s /usr/bin/irb1.8 /usr/local/bin/irb
 
+gem update --system
 #Rubygems.org/Gemcutter is the place to get all gems now.
 gem install gemcutter
 
