@@ -179,6 +179,11 @@ notify-send "Installing Ruby on Rails." "Rails 3 Beta is the version that is bei
 
 #Rails 3 beta.
 #Rubygems 1.3.6 now handles dependencies in prerelease software so this is all that is needed to install Rails 3 beta now:
+
+#This is a fix for the "File not found: lib" problem. Apparently adding an empty lib dir in the folder fixes it, so....
+mkdir -p /usr/lib/ruby/gems/1.8/gems/rails-3.0.0.beta3/lib
+
+
 gem install rails --pre
 
 echo -e "\r\n\r\nHere are the gems installed:\r\n\r\n"
