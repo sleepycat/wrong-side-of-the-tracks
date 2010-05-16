@@ -2,15 +2,18 @@ Wrong side of the tracks: Rails on Ubuntu
 
 Sure its not a Mac, but Ubuntu does Rails too!
 This is a setup script to get a complete working Ruby on Rails development environment up and working fast. Ubuntu changes far to often to spend a lot of time setting up your development environment. This script is my attempt to solve that issue for myself. Since I maintain some older Rails apps that development environment needs to support many versions of Rails.
-What gets installed?
+
+If you run it as is, it will install:
 
 Netbeans 6.9 Beta (Earlier versions don't support Rails 3)
 Ruby 1.8.7
+Rubygems 1.3.7
 MySQL 5.1 in Lucid / MySql 5.0 in Karmic
-Rails 3 Beta
+Rails 3 Beta 3
 Git
 A whack of common gems and their dependancies.
 
+The commands to install Postgres and some other things like RMagick are there if you want to uncomment them.
 At the moment this setup works well for the type of work I am doing and may work for you as well. If you have preferences for other things edit the script as necessary.
 Its been tested on a default install of Ubuntu Karmic 9.10 and Lucid Lynx 10.04 LTS.
 
