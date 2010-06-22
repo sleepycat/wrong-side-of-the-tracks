@@ -110,14 +110,14 @@ esac
 #
 #cd somewhere reasonable
 cd $HOME
-notify-send "Downloading Netbeans 6.9 RC1." "6.8 Dosen't support Rails 3 so we are grabbing 6.9 from the netbeans site.";
+notify-send "Downloading Netbeans 6.9." "6.8 Dosen't support Rails 3 so we are grabbing 6.9 from the netbeans site.";
 
-wget http://dlc.sun.com.edgesuite.net/netbeans/6.9/rc/bundles/netbeans-6.9rc1-ml-ruby-linux.sh
-chown -R $SUDO_USER ~/netbeans-6.9rc1-ml-ruby-linux.sh
-chgrp -R $SUDO_USER ~/netbeans-6.9rc1-ml-ruby-linux.sh
-chmod +x netbeans-6.9rc1-ml-ruby-linux.sh
-notify-send "Installing Netbeans 6.9 RC1." "It can take a while to install and it dosen't look like its doing anything. Sit tight. You will find an icon on your desktop afterwards.";
-su $SUDO_USER -c './netbeans-6.9rc1-ml-ruby-linux.sh --silent'
+wget http://dlc.sun.com.edgesuite.net/netbeans/6.9/final/bundles/netbeans-6.9-ml-ruby-linux.sh
+chown -R $SUDO_USER ~/netbeans-6.9-ml-ruby-linux.sh
+chgrp -R $SUDO_USER ~/netbeans-6.9-ml-ruby-linux.sh
+chmod +x netbeans-6.9-ml-ruby-linux.sh
+notify-send "Installing Netbeans 6.9." "It can take a while to install and it dosen't look like its doing anything. Sit tight. You will find an icon on your desktop afterwards.";
+su $SUDO_USER -c './netbeans-6.9-ml-ruby-linux.sh --silent'
 
 
 
