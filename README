@@ -8,14 +8,14 @@ If you run it as is, it will install:
 Netbeans 6.9.1 (Earlier versions don't support Rails 3)
 Ruby 1.8.7
 Rubygems 1.3.7
-MySQL 5.1 in Lucid / MySql 5.0 in Karmic
+MySQL 5.1 in Lucid/Maverick / MySql 5.0 in Karmic
 Rails 3
 Git
 A whack of common gems and their dependancies.
 
 The commands to install Postgres and some other things like RMagick are there if you want to uncomment them.
 At the moment this setup works well for the type of work I am doing and may work for you as well. If you have preferences for other things edit the script as necessary.
-Its been tested on a default install of Ubuntu Karmic 9.10 and Lucid Lynx 10.04 LTS.
+Its been tested on a default install of Ubuntu Karmic 9.10 and Lucid Lynx 10.04 LTS as well as the Maverick Meercat 10.10 release candidate 1.
 
 
 Mike Williamson
