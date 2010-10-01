@@ -6,9 +6,9 @@
 ## Website: mikewilliamson.wordpress.com, www.dexterchief.com
 ## This is intended to do the heavy lifting to get a working Rails environment from a default Ubuntu install. 
 ##
-aptitude update || { echo "Updating failed! Exiting!"; exit 1; } ;
+apt-get update || { echo "Updating failed! Exiting!"; exit 1; } ;
 
-aptitude --assume-yes install libnotify-bin;
+apt-get --assume-yes install libnotify-bin;
 
 
 #Get the Ubuntu version that we are running on.
@@ -32,33 +32,33 @@ case $version in
   # |_|\_\__,_|_|  |_| |_| |_|_|\___| |_|\_\___/ \__,_|_|\__,_|
   #                                                          
   #General packages and base Ruby stuff:
-  aptitude install --assume-yes build-essential openjdk-6-jre gedit-plugins vim ruby-full libopenssl-ruby1.8 ssl-cert meld python-gtksourceview || { notify-send "Problem downloading one of the main packages"; exit 1; } 
+  apt-get install --assume-yes build-essential openjdk-6-jre gedit-plugins vim ruby-full libopenssl-ruby1.8 ssl-cert meld python-gtksourceview || { notify-send "Problem downloading one of the main packages"; exit 1; } 
 
   #Git:
-  aptitude install --assume-yes git-core gitk || { notify-send "Problem installing Git"; } 
+  apt-get install --assume-yes git-core gitk || { notify-send "Problem installing Git"; } 
 
   #required by Mysql gem:
-  aptitude install --assume-yes mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev || { echo "Problem installing Mysql"; exit 1; } 
+  apt-get install --assume-yes mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev || { echo "Problem installing Mysql"; exit 1; } 
 
   #Postgres
   #uncomment the line below and at some point aftwards run "sudo gem install pg":
-  #aptitude install postgresql postgresql-server-dev-8.4 || { echo "problem downloading one of the packages"; exit 1; } 
+  #apt-get install postgresql postgresql-server-dev-8.4 || { echo "problem downloading one of the packages"; exit 1; } 
 
   #required by the Nokogiri gem:
-  aptitude install --assume-yes libxml2-dev libxslt1-dev|| { notify-send "Problem installing packages." "Nokogiri and the gems that depend on it (sanitize and mechanize) will be broken."; } 
+  apt-get install --assume-yes libxml2-dev libxslt1-dev|| { notify-send "Problem installing packages." "Nokogiri and the gems that depend on it (sanitize and mechanize) will be broken."; } 
 
   #Required by libnotify gem:
-  aptitude install --assume-yes libnotify1 || { notify-send "Problem installing libnotify"; } 
+  apt-get install --assume-yes libnotify1 || { notify-send "Problem installing libnotify"; } 
 
   #Required by Heroku/Taps gem:
-  aptitude install --assume-yes libsqlite3-dev sqlite3-doc  || { notify-send "Problem installing Sqlite." "Taps gem will fail."; } 
+  apt-get install --assume-yes libsqlite3-dev sqlite3-doc  || { notify-send "Problem installing Sqlite." "Taps gem will fail."; } 
 
   #RMagick gem:
   #uncomment the line below if you want to use RMagick. You will also need to run "sudo gem install rmagick" later as well.
-  #aptitude install imagemagick librmagick-ruby libmagickwand-dev
+  #apt-get install imagemagick librmagick-ruby libmagickwand-dev
   
 ;;
-'10.04')
+'10.04'|'maverick')
   # _                _     _   _                      
   #| |    _   _  ___(_) __| | | |    _   _ _ __ __  __
   #| |   | | | |/ __| |/ _` | | |   | | | | '_ \\ \/ /
@@ -66,35 +66,47 @@ case $version in
   #|_____|\__,_|\___|_|\__,_| |_____|\__, |_| |_/_/\_\
   #                                   |___/            
   #
+  #  __  __                  _      _      __  __                          _   
+  # |  \/  |                (_)    | |    |  \/  |                        | |  
+  # | \  / | __ ___   ___ __ _  ___| | __ | \  / | ___  ___ _ __ ___  __ _| |_ 
+  # | |\/| |/ _` \ \ / / '__| |/ __| |/ / | |\/| |/ _ \/ _ \ '__/ __|/ _` | __|
+  # | |  | | (_| |\ V /| |  | | (__|   <  | |  | |  __/  __/ | | (__| (_| | |_ 
+  # |_|  |_|\__,_| \_/ |_|  |_|\___|_|\_\ |_|  |_|\___|\___|_|  \___|\__,_|\__|
+  #
+  #
+  #Everything seems to be the same for Maverick. Sweet!
+  
+
   #Some basics and the Ruby stuff:
-  aptitude install --assume-yes build-essential gedit-plugins ruby-full libjson-ruby openjdk-6-jre libopenssl-ruby1.8 ssl-cert meld  || { echo "Problem downloading one of the main packages."; exit 1; } 
+  apt-get install --assume-yes build-essential gedit-plugins ruby-full libjson-ruby openjdk-6-jre libopenssl-ruby1.8 ssl-cert meld  || { echo "Problem downloading one of the main packages."; exit 1; } 
 
   #Git:
-  aptitude install --assume-yes git-core gitk || { notify-send "Problem installing Git"; } 
+  apt-get install --assume-yes git-core gitk || { notify-send "Problem installing Git"; } 
 
   #Required by Mysql gem:
-  aptitude install --assume-yes  mysql-server-5.1 mysql-client-5.1 libmysqlclient-dev  || { notify-send "Problem installing Mysql"; exit 1; } 
+  apt-get install --assume-yes  mysql-server-5.1 mysql-client-5.1 libmysqlclient-dev  || { notify-send "Problem installing Mysql"; exit 1; } 
 
   #Postgres
   #uncomment the line below and at some point aftwards run "sudo gem install pg":
-  #aptitude install postgresql postgresql-server-dev-8.4 || { echo "problem downloading one of the packages"; exit 1; } 
+  #apt-get install postgresql postgresql-server-dev-8.4 || { echo "problem downloading one of the packages"; exit 1; } 
 
   #Required by Nokogiri gem:
-  aptitude install --assume-yes  libxml-ruby1.8 libxslt1-dev libxml2-dev  || { notify-send "Problem installing libxml packages." "Nokogiri and the gems that depend on it (sanitize and mechanize) will be broken."; } 
+  apt-get install --assume-yes  libxml-ruby1.8 libxslt1-dev libxml2-dev  || { notify-send "Problem installing libxml packages." "Nokogiri and the gems that depend on it (sanitize and mechanize) will be broken."; } 
 
   #Required by Heroku/Taps gem:
-  aptitude install --assume-yes libsqlite3-dev sqlite3-doc  || { notify-send "Problem installing libsqlite3-dev." "Taps gem will fail."; } 
+  apt-get install --assume-yes libsqlite3-dev sqlite3-doc  || { notify-send "Problem installing libsqlite3-dev." "Taps gem will fail."; } 
 
   #Required by libnotify gem:
-  aptitude install --assume-yes libnotify1 || { notify-send "Problem installing libnotify" "The libnotify gem obviously won't do well without it.'"; } 
+  apt-get install --assume-yes libnotify1 || { notify-send "Problem installing libnotify" "The libnotify gem obviously won't do well without it.'"; } 
 
   #RMagick gem:
   #uncomment the line below if you want to use RMagick. You will also need to run "sudo gem install rmagick" later as well.
-  #aptitude install imagemagick librmagick-ruby libmagickwand-dev
+  #apt-get install imagemagick librmagick-ruby libmagickwand-dev
 
 ;;
+
 *)
-   echo "Are you even running Ubuntu?"
+   echo "Are you even running Ubuntu?"; exit 1;
 ;;
 esac
 
@@ -175,7 +187,7 @@ notify-send "Installing Ruby on Rails." "Rails 3 is the version that is being in
 
 #gem install rails -v 1.2.3 --include-dependencies
 #gem install rails -v 2.1 --include-dependencies
-#gem install rails -v 2.3.5 --include-dependencies
+#gem install rails -v 2.3.9 --include-dependencies
 
 #Rails 3.
 
