@@ -58,13 +58,13 @@ case $version in
   #apt-get install imagemagick librmagick-ruby libmagickwand-dev
   
 ;;
-'10.04'|'maverick')
+'10.04'|'10.10')
   # _                _     _   _                      
   #| |    _   _  ___(_) __| | | |    _   _ _ __ __  __
   #| |   | | | |/ __| |/ _` | | |   | | | | '_ \\ \/ /
   #| |___| |_| | (__| | (_| | | |___| |_| | | | |>  < 
   #|_____|\__,_|\___|_|\__,_| |_____|\__, |_| |_/_/\_\
-  #                                   |___/            
+  #                                  |___/            
   #
   #  __  __                  _      _      __  __                          _   
   # |  \/  |                (_)    | |    |  \/  |                        | |  
@@ -174,7 +174,7 @@ notify-send "Installing gems." "You may want to go have a nap. You may see some 
 
 #Feel free to add any gems you want here:
 #Will need to think about adding some versions here as well when working on older projects.
-gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha authlogic libnotify activemerchant haml_scaffold jrails nokogiri sanitize mechanize will_paginate nokogiri 
+gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha devise libnotify activemerchant haml_scaffold jrails nokogiri sanitize mechanize will_paginate nokogiri 
 
 #gem install pg
 #gem install rmagick
@@ -198,6 +198,7 @@ echo -e "\r\n\r\nHere are the gems installed:\r\n\r\n"
 gem list
 
 notify-send "Welcome to the wrong side of the tracks." "Everything is setup and ready to go. Enjoy."
+
 
 
 

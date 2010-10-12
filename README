@@ -15,7 +15,12 @@ A whack of common gems and their dependancies.
 
 The commands to install Postgres and some other things like RMagick are there if you want to uncomment them.
 At the moment this setup works well for the type of work I am doing and may work for you as well. If you have preferences for other things edit the script as necessary.
-Its been tested on a default install of Ubuntu Karmic 9.10 and Lucid Lynx 10.04 LTS as well as the Maverick Meercat 10.10 release candidate 1.
+
+Works with:
+
+Ubuntu Karmic 9.10
+Lucid Lynx 10.04 LTS
+Maverick Meercat 10.10.
 
 
 Mike Williamson
