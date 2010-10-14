@@ -83,12 +83,12 @@ case $version in
   #Git:
   apt-get install --assume-yes git-core gitk || { notify-send "Problem installing Git"; } 
 
-  #Required by Mysql gem:
-  apt-get install --assume-yes  mysql-server-5.1 mysql-client-5.1 libmysqlclient-dev  || { notify-send "Problem installing Mysql"; exit 1; } 
+  #Installing Postgres by default these days. If you want MySQL uncomment the line below and install the mysql gem.
+  #apt-get install --assume-yes  mysql-server-5.1 mysql-client-5.1 libmysqlclient-dev  || { notify-send "Problem installing Mysql"; exit 1; } 
 
   #Postgres
   #uncomment the line below and at some point aftwards run "sudo gem install pg":
-  #apt-get install postgresql postgresql-server-dev-8.4 || { echo "problem downloading one of the packages"; exit 1; } 
+  apt-get install postgresql postgresql-server-dev-8.4 || { echo "problem installing Postgres"; exit 1; } 
 
   #Required by Nokogiri gem:
   apt-get install --assume-yes  libxml-ruby1.8 libxslt1-dev libxml2-dev  || { notify-send "Problem installing libxml packages." "Nokogiri and the gems that depend on it (sanitize and mechanize) will be broken."; } 
@@ -167,16 +167,14 @@ gem update --system
 gem install gemcutter
 
 
-
-
-
 notify-send "Installing gems." "You may want to go have a nap. You may see some errors, but those are just for the rdocs an won't effect the gems themselves."
 
 #Feel free to add any gems you want here:
 #Will need to think about adding some versions here as well when working on older projects.
-gem install mysql taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel mocha devise libnotify activemerchant haml_scaffold jrails nokogiri sanitize mechanize will_paginate nokogiri 
+gem install taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel thin mocha devise libnotify activemerchant nokogiri sanitize mechanize will_paginate nokogiri pg omniauth
 
-#gem install pg
+#Only uncomment these if you have installed the proper libraries above.
+#gem install mysql
 #gem install rmagick
 
 notify-send "Installing Ruby on Rails." "Rails 3 is the version that is being installed."
