@@ -17,7 +17,7 @@ version=`cat /etc/issue | awk '{print $2}'`; #returns something like '9.10'
 if [ $distro !=  'Ubuntu' ]; then
   echo 'This script is expecting Ubuntu'; exit 1;
 fi
-notify-send "You are running $distro $version" "Downloading and installing now. Sit tight there is a lot to install. MySQL will ask for a password partway through the install.";
+notify-send "You are running $distro $version" "Downloading and installing now. Sit tight there is a lot to install.";
 
 #
 #Handle the different versions with a case statment so we can deal with different packages if needed. 
