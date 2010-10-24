@@ -6,17 +6,47 @@
 ## Website: mikewilliamson.wordpress.com, www.dexterchief.com
 ## This is intended to do the heavy lifting to get a working Rails environment from a default Ubuntu install. 
 ##
+printHelpAndExit(){
+  echo -e "Run this script with -d mysql if you would like Mysql installed intead of Postgres."; exit 0;
+}
+
+printErrorHelpAndExit(){
+  echo -e "Didn't recognize the option $@. Use -h for help."; exit 1;
+}
+
+
+distro=`cat /etc/issue | awk '{print $1}'`; #returns 'Ubuntu'... or should.
+version=`cat /etc/issue | awk '{print $2}'`; #returns something like '9.10'
+database="postgres"
+
+
+while getopts "d:h" optionName; do
+  case "$optionName" in
+    h)
+      printHelpAndExit
+    ;;
+    d)
+      database="$OPTARG"
+    ;;
+    ?)
+      printErrorHelpAndExit
+    ;;
+  esac
+done
+
+#Get the Ubuntu version that we are running on.
+
+if [ $distro !=  'Ubuntu' ]; then
+  echo 'This script is expecting Ubuntu. The packages that need to be installed are different on other distros.'; exit 1;
+fi
+
+
 apt-get update || { echo "Updating failed! Exiting!"; exit 1; } ;
 
 apt-get --assume-yes install libnotify-bin;
 
 
-#Get the Ubuntu version that we are running on.
-distro=`cat /etc/issue | awk '{print $1}'`; #returns 'Ubuntu'... or should.
-version=`cat /etc/issue | awk '{print $2}'`; #returns something like '9.10'
-if [ $distro !=  'Ubuntu' ]; then
-  echo 'This script is expecting Ubuntu'; exit 1;
-fi
+
 notify-send "You are running $distro $version" "Downloading and installing now. Sit tight there is a lot to install.";
 
 #
@@ -37,13 +67,6 @@ case $version in
   #Git:
   apt-get install --assume-yes git-core gitk || { notify-send "Problem installing Git"; } 
 
-  #required by Mysql gem:
-  apt-get install --assume-yes mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev || { echo "Problem installing Mysql"; exit 1; } 
-
-  #Postgres
-  #uncomment the line below and at some point aftwards run "sudo gem install pg":
-  #apt-get install postgresql postgresql-server-dev-8.4 || { echo "problem downloading one of the packages"; exit 1; } 
-
   #required by the Nokogiri gem:
   apt-get install --assume-yes libxml2-dev libxslt1-dev|| { notify-send "Problem installing packages." "Nokogiri and the gems that depend on it (sanitize and mechanize) will be broken."; } 
 
@@ -56,6 +79,18 @@ case $version in
   #RMagick gem:
   #uncomment the line below if you want to use RMagick. You will also need to run "sudo gem install rmagick" later as well.
   #apt-get install imagemagick librmagick-ruby libmagickwand-dev
+  
+  notify-send "Installing $database";
+  case $database in
+  "mysql")    
+    #required by Mysql gem:
+    apt-get install --assume-yes mysql-server-5.0 mysql-client-5.0 libmysqlclient-dev || { echo "Problem installing Mysql"; exit 1; } 
+  ;;
+  "postgres")
+    apt-get install postgresql postgresql-server-dev-8.4 || { echo "problem downloading one of the packages"; exit 1; } 
+  ;;
+  esac
+
   
 ;;
 '10.04'|'10.10')
@@ -83,13 +118,6 @@ case $version in
   #Git:
   apt-get install --assume-yes git-core gitk || { notify-send "Problem installing Git"; } 
 
-  #Installing Postgres by default these days. If you want MySQL uncomment the line below and install the mysql gem.
-  #apt-get install --assume-yes  mysql-server-5.1 mysql-client-5.1 libmysqlclient-dev  || { notify-send "Problem installing Mysql"; exit 1; } 
-
-  #Postgres
-  #uncomment the line below and at some point aftwards run "sudo gem install pg":
-  apt-get install postgresql postgresql-server-dev-8.4 || { echo "problem installing Postgres"; exit 1; } 
-
   #Required by Nokogiri gem:
   apt-get install --assume-yes  libxml-ruby1.8 libxslt1-dev libxml2-dev  || { notify-send "Problem installing libxml packages." "Nokogiri and the gems that depend on it (sanitize and mechanize) will be broken."; } 
 
@@ -103,10 +131,20 @@ case $version in
   #uncomment the line below if you want to use RMagick. You will also need to run "sudo gem install rmagick" later as well.
   #apt-get install imagemagick librmagick-ruby libmagickwand-dev
 
+  notify-send "Installing $database";
+  case $database in
+    "mysql")    
+      apt-get install --assume-yes mysql-server-5.1 mysql-client-5.1 libmysqlclient-dev  || { notify-send "Problem installing Mysql"; exit 1; }
+    ;;
+    "postgres")
+      apt-get install --assume-yes postgresql postgresql-server-dev-8.4 || { echo "problem installing Postgres"; exit 1; } 
+    ;;
+  esac
+
 ;;
 
 *)
-   echo "Are you even running Ubuntu?"; exit 1;
+   echo "$distro $version is not supported."; exit 1;
 ;;
 esac
 
@@ -171,10 +209,20 @@ notify-send "Installing gems." "You may want to go have a nap. You may see some 
 
 #Feel free to add any gems you want here:
 #Will need to think about adding some versions here as well when working on older projects.
-gem install taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel thin mocha devise libnotify activemerchant nokogiri sanitize mechanize will_paginate nokogiri pg omniauth
+gem install taps heroku haml ruby-debug-ide ruby-debug clickatell mongrel thin mocha devise libnotify activemerchant nokogiri sanitize mechanize will_paginate nokogiri omniauth
 
-#Only uncomment these if you have installed the proper libraries above.
-#gem install mysql
+
+
+#installing the gem for the selected database
+case $database in
+  "mysql")    
+    gem install mysql
+  ;;
+  "postgres")
+    gem install pg
+  ;;
+esac
+
 #gem install rmagick
 
 notify-send "Installing Ruby on Rails." "Rails 3 is the version that is being installed."
